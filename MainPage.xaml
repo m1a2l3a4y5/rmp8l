@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="rmp8l.MainPage">
+
+    <ScrollView Background="#E4D6EC" >
+        <StackLayout>
+            <Label Text="Фотография" FontSize="15" Margin="17,10,0,0"  TextColor="#6E06DB"></Label>
+            <Image x:Name="selectedImage" Source="photo.jpg" Aspect="AspectFit" HeightRequest="120"></Image>
+            <Button Text="Выбрать фото" x:Name="ph" Clicked="ph_Clicked" Margin="1,10,0,0"/>
+            <TableView>
+            <TableRoot>
+                    <TableSection Title="Персональные данные">
+                        <EntryCell x:Name="fio" Label="Фамилия: "  Placeholder="Введите фамилию" Keyboard="Text"></EntryCell>
+                    <EntryCell x:Name="name" Label="Имя: " Placeholder="Введите имя" Keyboard="Text"></EntryCell>
+                    <EntryCell x:Name="lastName" Label="Отчество: " Placeholder="Введите отчество" Keyboard="Text"></EntryCell>
+                    <ViewCell>
+                        <DatePicker x:Name="dateBirth" FontSize="17" Margin="15,0,15,0" DateSelected="dateBirth_DateSelected"></DatePicker>
+                    </ViewCell>
+                    <TextCell x:Name="age" Text="Возраст - "></TextCell>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
+                            <Label Text="Пол" FontSize="17" VerticalOptions="Center" Margin="5,0,10,0"></Label>
+                            <Picker Title="Выберите пол">
+                                <Picker.Items>
+                                    <x:String>Мужской</x:String>
+                                    <x:String>Женский</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+                <TableSection x:Name="phone"  Title="Телефоны">
+                        <EntryCell x:Name="phoneEntry" Placeholder="Введите телефон" Keyboard="Numeric"></EntryCell>
+                </TableSection>
+                    <TableSection>
+                        <ViewCell >
+                            <Button Text="Добавить телефон" x:Name="addPhone" Clicked="addPhone_Clicked"></Button>
+                        </ViewCell>
+                    </TableSection>
+                    <TableSection>
+                    <ViewCell >
+                        <Button Text="Добавить" x:Name="add"  ></Button>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
