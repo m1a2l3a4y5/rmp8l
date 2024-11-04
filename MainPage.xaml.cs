@@ -1,62 +1,79 @@
-﻿using System.Collections.Generic;
-using Microsoft.Maui.Controls;
-
+﻿using Microsoft.Maui;
+using System.Reflection;
 namespace rmp8l
 {
     public partial class MainPage : ContentPage
     {
-      
+        private List<Student> students = new List<Student>();
+        private StreamImageSource userPhotoSource; // Для хранения изображения
 
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void dateBirth_DateSelected(object sender, DateChangedEventArgs e)
-        {
-            //Расчитываем возраст
-            int ag = DateTime.Now.Year - dateBirth.Date.Year; if (DateTime.Now.Month < dateBirth.Date.Month ||
-            (DateTime.Now.Month == dateBirth.Date.Month && DateTime.Now.Day < dateBirth.Date.Day))
-                ag--;
-            age.Text = "Возраст - "
-            + ag.ToString();
-        }
-
-       private void addPhone_Clicked(object sender, EventArgs e)
-       {
-           //Добавляем телефоны в текущую секцию
-           EntryCell p = new EntryCell();
-           p.Placeholder = "Введите телефон";
-           p.Keyboard=Keyboard.Numeric;
-           phone.Add(p);
-       }
 
         private async void ph_Clicked(object sender, EventArgs e)
         {
-            try
+            var result = await MediaPicker.PickPhotoAsync();
+            if (result != null)
             {
-                // Запрос на выбор изображения
-                var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
+                var stream = await result.OpenReadAsync();
+                userPhotoSource = (StreamImageSource)ImageSource.FromStream(() =>
                 {
-                    Title = "Выберите фото"
+                    // Возвращаем новый поток каждый раз
+                    return result.OpenReadAsync().Result;
                 });
-
-                // Получаем поток изображения
-                if (result != null)
-                {
-                    var stream = await result.OpenReadAsync();
-
-                    // Устанавливаем выбранное изображение в элемент Image
-                    selectedImage.Source = ImageSource.FromStream(() => stream);
-                }
+                UserPhoto.Source = userPhotoSource; // Отображаем фото на главной странице
             }
-            catch (Exception ex)
+        }
+            private void Button_Clicked(object sender, EventArgs e)
             {
-                // Обработка ошибок, таких как отсутствие доступа к медиафайлам
-                await DisplayAlert("Ошибка", "Не удалось выбрать фото: " + ex.Message, "ОК");
+
+                var student = new Student
+                {
+                    FullName = FullNameEntry.Text,
+                    Gender = GenderPicker.SelectedItem?.ToString(),
+                    Age = AgeEntry.Text,
+                    NeedsHostel = HostelSwitch.IsToggled,
+                    IsLeader = LeaderSwitch.IsToggled,
+                    Photo = userPhotoSource // сохраняем фото
+                };
+
+                // Добавляем студент в список
+                students.Add(student);
+                RecordsPicker.ItemsSource = null; // Сбрасываем источник данных
+                RecordsPicker.ItemsSource = students.Select(s => s.FullName).ToList(); // Устанавливаем обновленный источник данных
+
+                StatusLabel.Text = "Данные сохранены!";
+
+                // Очищаем все поля
+                FullNameEntry.Text = string.Empty;
+                GenderPicker.SelectedIndex = -1; // Сбрасываем выбор
+                AgeEntry.Text = string.Empty;
+                HostelSwitch.IsToggled = false; // Сбрасываем переключатель
+                LeaderSwitch.IsToggled = false; // Сбрасываем переключатель
+                UserPhoto.Source = null; // Убираем фото
+            }
+        private async void RecordsPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = RecordsPicker.SelectedItem?.ToString();
+            if (selectedItem != null)
+            {
+                var student = students.FirstOrDefault(s => s.FullName == selectedItem);
+                if (student != null)
+                {
+                    // Передаем данные на DetailsPage
+                    await Navigation.PushAsync(new NewPage1(
+                        student.FullName,
+                        student.Gender,
+                        student.Age,
+                        student.NeedsHostel,
+                        student.IsLeader,
+                        student.Photo
+                    ));
+                }
             }
         }
     }
-    
-
 }

@@ -4,47 +4,42 @@
              x:Class="rmp8l.MainPage">
 
     <ScrollView Background="#E4D6EC" >
-        <StackLayout>
-            <Label Text="Фотография" FontSize="15" Margin="17,10,0,0"  TextColor="#6E06DB"></Label>
-            <Image x:Name="selectedImage" Source="photo.jpg" Aspect="AspectFit" HeightRequest="120"></Image>
+        <StackLayout  >
+            <Image x:Name="UserPhoto"  Margin="1,10,0,0" HeightRequest="120"></Image>
             <Button Text="Выбрать фото" x:Name="ph" Clicked="ph_Clicked" Margin="1,10,0,0"/>
-            <TableView>
-            <TableRoot>
-                    <TableSection Title="Персональные данные">
-                        <EntryCell x:Name="fio" Label="Фамилия: "  Placeholder="Введите фамилию" Keyboard="Text"></EntryCell>
-                    <EntryCell x:Name="name" Label="Имя: " Placeholder="Введите имя" Keyboard="Text"></EntryCell>
-                    <EntryCell x:Name="lastName" Label="Отчество: " Placeholder="Введите отчество" Keyboard="Text"></EntryCell>
-                    <ViewCell>
-                        <DatePicker x:Name="dateBirth" FontSize="17" Margin="15,0,15,0" DateSelected="dateBirth_DateSelected"></DatePicker>
-                    </ViewCell>
-                    <TextCell x:Name="age" Text="Возраст - "></TextCell>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Margin="15,0,15,0">
-                            <Label Text="Пол" FontSize="17" VerticalOptions="Center" Margin="5,0,10,0"></Label>
-                            <Picker Title="Выберите пол">
-                                <Picker.Items>
-                                    <x:String>Мужской</x:String>
-                                    <x:String>Женский</x:String>
-                                </Picker.Items>
-                            </Picker>
-                        </StackLayout>
-                    </ViewCell>
-                </TableSection>
-                <TableSection x:Name="phone"  Title="Телефоны">
-                        <EntryCell x:Name="phoneEntry" Placeholder="Введите телефон" Keyboard="Numeric"></EntryCell>
-                </TableSection>
-                    <TableSection>
-                        <ViewCell >
-                            <Button Text="Добавить телефон" x:Name="addPhone" Clicked="addPhone_Clicked"></Button>
-                        </ViewCell>
-                    </TableSection>
-                    <TableSection>
-                    <ViewCell >
-                        <Button Text="Добавить" x:Name="add"  ></Button>
-                    </ViewCell>
-                </TableSection>
-            </TableRoot>
-        </TableView>
+            <Label Text="ФИО" FontSize="15" Margin="1,20,0,0" />
+            <Entry x:Name=" FullNameEntry" Placeholder="Введите ФИО" Keyboard="Text"/>
+
+            <Label Text="Пол" FontSize="15"/>
+            <Picker x:Name="GenderPicker">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Мужской</x:String>
+                        <x:String>Женский</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Label Text="Возраст" FontSize="15"/>
+            <Entry x:Name="AgeEntry" Placeholder="Введите возраст" Keyboard="Numeric"/>
+
+            <Label Text="Нужен ли общежитие?" FontSize="15"/>
+            <Switch x:Name="HostelSwitch"/>
+
+            <Label Text="Являетесь старостой?" FontSize="15"/>
+            <Switch x:Name="LeaderSwitch"/>
+            <Button Text="Сохранить"  Clicked="Button_Clicked" />
+            <Label x:Name="StatusLabel" />
+
+            <Label Text="Список записей" FontSize="15"/>
+            <Picker x:Name="RecordsPicker" SelectedIndexChanged="RecordsPicker_SelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <!-- Записи будут добавляться сюда -->
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Label x:Name="DetailsLabel" TextColor="Black" />
+            
         </StackLayout>
     </ScrollView>
 
