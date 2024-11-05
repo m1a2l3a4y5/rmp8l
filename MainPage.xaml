@@ -31,10 +31,9 @@
             <Button Text="Сохранить"  Clicked="Button_Clicked" />
             <Label x:Name="StatusLabel" />
 
-            <Label Text="Список записей" FontSize="15"/>
+            <Label Text="Список записей" Margin="150,0,0,0"  FontSize="15"/>
             <Picker x:Name="RecordsPicker" SelectedIndexChanged="RecordsPicker_SelectedIndexChanged">
                 <Picker.ItemsSource>
-                    <!-- Записи будут добавляться сюда -->
                 </Picker.ItemsSource>
             </Picker>
 
